@@ -13,8 +13,8 @@ warnings.filterwarnings('ignore')
 # ============================================================================
 
 st.set_page_config(
-    page_title="🏥 Obesity Prediction System",
-    page_icon="🏥",
+    page_title="Obesity Prediction System",
+    page_icon="⚕️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -23,27 +23,34 @@ st.set_page_config(
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
     
     .main {
         font-family: 'Inter', sans-serif;
-        background-color: #f8f9fa;
+        background-color: #F4EEFF;
     }
     
     /* Header */
     .main-header {
-        background: linear-gradient(135deg, #ADB2D4 0%, #C7D9DD 100%);
-        color: #2c3e50;
+        background: linear-gradient(135deg, #424874 0%, #A6B1E1 100%);
+        color: #F5F5F5;
         padding: 2rem;
         border-radius: 15px;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 15px rgba(66, 72, 116, 0.3);
     }
     
     .main-header h1 {
         font-size: 2.5rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
+        color: #F5F5F5;
+    }
+    
+    .main-header p {
+        color: #F5F5F5;
+        opacity: 0.9;
     }
     
     /* Cards */
@@ -51,51 +58,80 @@ st.markdown("""
         background: white;
         padding: 1.5rem;
         border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        box-shadow: 0 2px 10px rgba(66, 72, 116, 0.1);
         margin: 1rem 0;
-        border-left: 4px solid #ADB2D4;
+        border-left: 4px solid #A6B1E1;
+        color: #1B262C;
     }
     
     .prediction-card {
-        background: #D5E5D5;
+        background: #DCD6F7;
         padding: 2rem;
         border-radius: 15px;
         text-align: center;
         margin: 1rem 0;
-        border: 2px solid #C7D9DD;
+        border: 2px solid #A6B1E1;
+        color: #1B262C;
     }
     
     .metric-card {
-        background: #EEF1DA;
+        background: white;
         padding: 1.5rem;
         border-radius: 12px;
         text-align: center;
         margin: 0.5rem 0;
-        border: 1px solid #D5E5D5;
+        border: 1px solid #DCD6F7;
+        color: #1B262C;
+        box-shadow: 0 2px 8px rgba(66, 72, 116, 0.1);
+    }
+    
+    .metric-card h2 {
+        color: #424874;
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+    }
+    
+    .metric-card h3 {
+        color: #1B262C;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-card p {
+        color: #424874;
+        font-size: 1rem;
+        margin-top: 0.25rem;
+    }
+    
+    .metric-card i {
+        font-size: 1.5rem;
+        color: #A6B1E1;
+        margin-bottom: 0.5rem;
     }
     
     /* Info boxes */
     .info-box {
-        background: #C7D9DD;
+        background: #A6B1E1;
         padding: 1rem;
         border-radius: 10px;
         margin: 1rem 0;
-        color: #2c3e50;
+        color: #F5F5F5;
     }
     
     .warning-box {
-        background: #EEF1DA;
+        background: #DCD6F7;
         padding: 1rem;
         border-radius: 10px;
         margin: 1rem 0;
-        border-left: 4px solid #ADB2D4;
-        color: #2c3e50;
+        border-left: 4px solid #424874;
+        color: #1B262C;
     }
     
     /* Button */
     .stButton > button {
-        background: linear-gradient(135deg, #ADB2D4 0%, #C7D9DD 100%);
-        color: #2c3e50;
+        background: linear-gradient(135deg, #424874 0%, #A6B1E1 100%);
+        color: #F5F5F5;
         border: none;
         padding: 0.75rem 2rem;
         border-radius: 10px;
@@ -103,25 +139,52 @@ st.markdown("""
         transition: all 0.3s ease;
         width: 100%;
     }
-    
+ 
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(173, 178, 212, 0.3);
+        box-shadow: 0 5px 15px rgba(66, 72, 116, 0.4);
+        background: linear-gradient(135deg, #424874 0%, #A6B1E1 100%);
     }
-    
+
+    .section-header {
+        color: #424874;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+            
     /* Sidebar */
     .css-1d391kg {
-        background: linear-gradient(180deg, #EEF1DA 0%, #D5E5D5 100%);
+        background: linear-gradient(180deg, #F4EEFF 0%, #DCD6F7 100%);
     }
     
     /* Progress bar */
     .stProgress .st-bo {
-        background: #ADB2D4;
+        background: #424874;
     }
     
-    h3 {
-        color: #2c3e50;
-        font-weight: 500;
+    h2, h3 {
+        color: #424874;
+        font-weight: 600;
+    }
+    
+    /* Icon styles */
+    .icon {
+        margin-right: 0.5rem;
+        color: #A6B1E1;
+    }
+    
+    .risk-item {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .risk-item i {
+        margin-right: 1rem;
+        font-size: 1.2rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -140,7 +203,7 @@ def load_model():
             model = pickle.load(file)
         return model, True
     except FileNotFoundError:
-        st.error(f"❌ Model tidak ditemukan di: {model_path}")
+        st.error(f"Model tidak ditemukan di: {model_path}")
         # Fallback ke model dummy
         np.random.seed(42)
         X_dummy = np.random.rand(100, 16)
@@ -149,7 +212,7 @@ def load_model():
         model.fit(X_dummy, y_dummy)
         return model, False
     except Exception as e:
-        st.error(f"❌ Error loading model: {str(e)}")
+        st.error(f"Error loading model: {str(e)}")
         return None, False
 
 # ============================================================================
@@ -160,13 +223,13 @@ def get_bmi_category(weight, height):
     """Hitung BMI dan kategorinya"""
     bmi = weight / (height ** 2)
     if bmi < 18.5:
-        return bmi, "Underweight"
+        return bmi, "Berat Badan Kurang"
     elif 18.5 <= bmi < 25:
         return bmi, "Normal"
     elif 25 <= bmi < 30:
-        return bmi, "Overweight"
+        return bmi, "Kelebihan Berat Badan"
     else:
-        return bmi, "Obese"
+        return bmi, "Obesitas"
 
 def predict_obesity(model, age, gender, height, weight, calc, favc, fcvc, ncp, 
                    scc, smoke, ch2o, family_history, faf, tue, caec, mtrans):
@@ -206,37 +269,44 @@ def get_recommendation(prediction):
         'Insufficient_Weight': {
             'title': 'Berat Badan Kurang',
             'advice': 'Tingkatkan asupan kalori dengan makanan bergizi. Konsultasi dengan ahli gizi.',
-            'risk': 'Rendah'
+            'risk': 'Rendah',
+            'icon': 'fas fa-weight-hanging'
         },
         'Normal_Weight': {
             'title': 'Berat Badan Normal',
             'advice': 'Pertahankan pola hidup sehat dengan diet seimbang dan olahraga teratur.',
-            'risk': 'Sangat Rendah'
+            'risk': 'Sangat Rendah',
+            'icon': 'fas fa-check-circle'
         },
         'Overweight_Level_I': {
             'title': 'Kelebihan Berat Badan Tingkat I',
             'advice': 'Mulai program penurunan berat badan dengan diet dan olahraga.',
-            'risk': 'Sedang'
+            'risk': 'Sedang',
+            'icon': 'fas fa-exclamation-triangle'
         },
         'Overweight_Level_II': {
             'title': 'Kelebihan Berat Badan Tingkat II',
             'advice': 'Diperlukan program penurunan berat badan yang lebih intensif.',
-            'risk': 'Tinggi'
+            'risk': 'Tinggi',
+            'icon': 'fas fa-exclamation-triangle'
         },
         'Obesity_Type_I': {
             'title': 'Obesitas Tipe I',
             'advice': 'Konsultasi dengan dokter untuk program penurunan berat badan.',
-            'risk': 'Tinggi'
+            'risk': 'Tinggi',
+            'icon': 'fas fa-hospital'
         },
         'Obesity_Type_II': {
             'title': 'Obesitas Tipe II',
             'advice': 'Diperlukan intervensi medis segera untuk mengurangi risiko komplikasi.',
-            'risk': 'Sangat Tinggi'
+            'risk': 'Sangat Tinggi',
+            'icon': 'fas fa-hospital'
         },
         'Obesity_Type_III': {
             'title': 'Obesitas Tipe III',
             'advice': 'Diperlukan penanganan medis intensif. Pertimbangkan konsultasi spesialis.',
-            'risk': 'Ekstrem'
+            'risk': 'Ekstrem',
+            'icon': 'fas fa-hospital-symbol'
         }
     }
     
@@ -248,7 +318,7 @@ def get_recommendation(prediction):
 
 st.markdown("""
 <div class="main-header">
-    <h1>🏥 Obesity Prediction System</h1>
+    <h1><i class="fas fa-heartbeat icon"></i>Obesity Prediction System</h1>
     <p>Sistem Prediksi Tingkat Obesitas Berbasis Machine Learning</p>
 </div>
 """, unsafe_allow_html=True)
@@ -262,7 +332,7 @@ if model is None:
 if not is_real_model:
     st.markdown("""
     <div class="warning-box">
-        <h4>⚠️ Mode Demo</h4>
+        <h4><i class="fas fa-exclamation-triangle icon"></i>Mode Demo</h4>
         <p>Model file tidak ditemukan. Aplikasi berjalan dalam mode demo.</p>
     </div>
     """, unsafe_allow_html=True)
@@ -271,55 +341,55 @@ if not is_real_model:
 # SIDEBAR INPUT
 # ============================================================================
 
-st.sidebar.header("📝 Input Data Pasien")
+st.sidebar.markdown("### <i class='fas fa-clipboard-list'></i> Input Data Pasien", unsafe_allow_html=True)
 
 # Demographics
-st.sidebar.subheader("👤 Informasi Demografis")
+st.sidebar.markdown("#### <i class='fas fa-user'></i> Informasi Demografis", unsafe_allow_html=True)
 age = st.sidebar.slider("Umur", 16, 61, 25)
-gender = st.sidebar.selectbox("Jenis Kelamin", ["Female", "Male"])
+gender = st.sidebar.selectbox("Jenis Kelamin", ["Perempuan", "Laki-laki"])
 height = st.sidebar.number_input("Tinggi Badan (m)", 1.45, 1.98, 1.70, 0.01)
 weight = st.sidebar.number_input("Berat Badan (kg)", 39.0, 173.0, 70.0, 0.1)
 
 # Eating habits
-st.sidebar.subheader("🍽️ Kebiasaan Makan")
-favc = st.sidebar.selectbox("Konsumsi Makanan Berkalori Tinggi", ["No", "Yes"])
+st.sidebar.markdown("#### <i class='fas fa-utensils'></i> Kebiasaan Makan", unsafe_allow_html=True)
+favc = st.sidebar.selectbox("Konsumsi Makanan Berkalori Tinggi", ["Tidak", "Ya"])
 fcvc = st.sidebar.slider("Konsumsi Sayuran (per hari)", 1.0, 3.0, 2.0, 0.1)
 ncp = st.sidebar.slider("Jumlah Makanan Utama", 1.0, 4.0, 3.0, 0.1)
 caec = st.sidebar.selectbox("Konsumsi Makanan Antar Waktu Makan", 
-                           ["no", "Sometimes", "Frequently", "Always"])
+                           ["Tidak", "Kadang-kadang", "Sering", "Selalu"])
 
 # Lifestyle
-st.sidebar.subheader("🚭 Kebiasaan Hidup")
-calc = st.sidebar.selectbox("Konsumsi Alkohol", ["no", "Sometimes", "Frequently", "Always"])
-smoke = st.sidebar.selectbox("Merokok", ["no", "yes"])
+st.sidebar.markdown("#### <i class='fas fa-smoking'></i> Kebiasaan Hidup", unsafe_allow_html=True)
+calc = st.sidebar.selectbox("Konsumsi Alkohol", ["Tidak", "Kadang-kadang", "Sering", "Selalu"])
+smoke = st.sidebar.selectbox("Merokok", ["Tidak", "Ya"])
 ch2o = st.sidebar.slider("Konsumsi Air (liter/hari)", 1.0, 3.0, 2.0, 0.1)
-scc = st.sidebar.selectbox("Monitor Kalori", ["no", "yes"])
+scc = st.sidebar.selectbox("Monitor Kalori", ["Tidak", "Ya"])
 
 # Physical activity
-st.sidebar.subheader("🏃 Aktivitas Fisik")
+st.sidebar.markdown("#### <i class='fas fa-running'></i> Aktivitas Fisik", unsafe_allow_html=True)
 faf = st.sidebar.slider("Aktivitas Fisik (hari/minggu)", 0.0, 3.0, 1.0, 0.1)
 tue = st.sidebar.slider("Waktu Menggunakan Teknologi (jam/hari)", 0.0, 2.0, 1.0, 0.1)
 mtrans = st.sidebar.selectbox("Transportasi Utama", 
-                             ["Automobile", "Bike", "Motorbike", "Public_Transportation", "Walking"])
+                             ["Mobil", "Sepeda", "Motor", "Transportasi Umum", "Jalan Kaki"])
 
 # Family history
-st.sidebar.subheader("👨‍👩‍👧‍👦 Riwayat Keluarga")
-family_history = st.sidebar.selectbox("Riwayat Keluarga Overweight", ["no", "yes"])
+st.sidebar.markdown("#### <i class='fas fa-users'></i> Riwayat Keluarga", unsafe_allow_html=True)
+family_history = st.sidebar.selectbox("Riwayat Keluarga Kelebihan Berat Badan", ["Tidak", "Ya"])
 
 # ============================================================================
 # KONVERSI INPUT
 # ============================================================================
 
-gender_num = 1 if gender == "Male" else 0
-favc_num = 1 if favc == "Yes" else 0
-calc_mapping = {"no": 0, "Sometimes": 1, "Frequently": 2, "Always": 3}
+gender_num = 1 if gender == "Laki-laki" else 0
+favc_num = 1 if favc == "Ya" else 0
+calc_mapping = {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}
 calc_num = calc_mapping[calc]
-scc_num = 1 if scc == "yes" else 0
-smoke_num = 1 if smoke == "yes" else 0
-family_history_num = 1 if family_history == "yes" else 0
-caec_mapping = {"no": 0, "Sometimes": 1, "Frequently": 2, "Always": 3}
+scc_num = 1 if scc == "Ya" else 0
+smoke_num = 1 if smoke == "Ya" else 0
+family_history_num = 1 if family_history == "Ya" else 0
+caec_mapping = {"Tidak": 0, "Kadang-kadang": 1, "Sering": 2, "Selalu": 3}
 caec_num = caec_mapping[caec]
-mtrans_mapping = {"Automobile": 0, "Bike": 1, "Motorbike": 2, "Public_Transportation": 3, "Walking": 4}
+mtrans_mapping = {"Mobil": 0, "Sepeda": 1, "Motor": 2, "Transportasi Umum": 3, "Jalan Kaki": 4}
 mtrans_num = mtrans_mapping[mtrans]
 
 # ============================================================================
@@ -334,7 +404,8 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>📊 BMI</h3>
+        <i class="fas fa-chart-bar"></i>
+        <h3>BMI</h3>
         <h2>{bmi:.1f}</h2>
         <p>{bmi_category}</p>
     </div>
@@ -343,7 +414,8 @@ with col1:
 with col2:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>⚖️ Berat</h3>
+        <i class="fas fa-weight"></i>
+        <h3>Berat</h3>
         <h2>{weight} kg</h2>
         <p>Berat Badan</p>
     </div>
@@ -352,7 +424,8 @@ with col2:
 with col3:
     st.markdown(f"""
     <div class="metric-card">
-        <h3>📏 Tinggi</h3>
+        <i class="fas fa-ruler-vertical"></i>
+        <h3>Tinggi</h3>
         <h2>{height} m</h2>
         <p>Tinggi Badan</p>
     </div>
@@ -384,15 +457,16 @@ fig_bmi = go.Figure(go.Indicator(
 fig_bmi.update_layout(
     height=400,
     paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',
+    font_color='#1B262C'
 )
 
 st.plotly_chart(fig_bmi, use_container_width=True)
 
 # Prediction Button
-st.markdown("## 🎯 Prediksi Tingkat Obesitas")
+st.markdown('<h2 class="section-header"><i class="fas fa-search icon"></i>Prediksi Tingkat Obesitas</h2>', unsafe_allow_html=True)
 
-if st.button("🔍 Prediksi Sekarang", type="primary"):
+if st.button("Analisis Sekarang", type="primary"):
     with st.spinner('Menganalisis data...'):
         prediction, confidence = predict_obesity(
             model, age, gender_num, height, weight, calc_num, favc_num, 
@@ -401,9 +475,12 @@ if st.button("🔍 Prediksi Sekarang", type="primary"):
         )
         
         # Display prediction
+        rec = get_recommendation(prediction)
+        
         st.markdown(f"""
         <div class="prediction-card">
-            <h2>📊 Hasil Prediksi</h2>
+            <i class="{rec['icon']}" style="font-size: 2rem; margin-bottom: 1rem; color: #424874;"></i>
+            <h2>Hasil Prediksi</h2>
             <h1>{prediction.replace('_', ' ')}</h1>
             <p>Confidence: {confidence:.1%}</p>
         </div>
@@ -413,11 +490,9 @@ if st.button("🔍 Prediksi Sekarang", type="primary"):
         st.progress(confidence)
         
         # Recommendation
-        rec = get_recommendation(prediction)
-        
         st.markdown(f"""
         <div class="card">
-            <h3>💡 {rec['title']}</h3>
+            <h3><i class="fas fa-lightbulb icon"></i>{rec['title']}</h3>
             <p><strong>Tingkat Risiko:</strong> {rec['risk']}</p>
             <p><strong>Rekomendasi:</strong> {rec['advice']}</p>
         </div>
@@ -427,7 +502,7 @@ if st.button("🔍 Prediksi Sekarang", type="primary"):
 # HEALTH STATS
 # ============================================================================
 
-st.markdown("## 📊 Statistik Kesehatan")
+st.markdown('<h2 class="section-header"><i class="fas fa-chart-line icon"></i>Statistik Kesehatan</h2>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
@@ -444,13 +519,19 @@ with col1:
         name='Anda',
         x=activity_data['Kategori'],
         y=activity_data['Nilai'],
-        marker_color='#424874'
+        marker_color='#2D3748',
+        text=[f'{val:.0f}%' for val in activity_data['Nilai']],
+        textposition='auto',
+        textfont=dict(color='#F5F5F5', size=12, family='Inter')
     ))
     fig_activity.add_trace(go.Bar(
         name='Target',
         x=activity_data['Kategori'],
         y=activity_data['Target'],
-        marker_color='#A6B1E1'
+        marker_color='#6B73FF',
+        text=[f'{val:.0f}%' for val in activity_data['Target']],
+        textposition='auto',
+        textfont=dict(color='#FFFFFF', size=12, family='Inter')
     ))
     
     fig_activity.update_layout(
@@ -459,31 +540,38 @@ with col1:
         height=400,
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        font_color='#1B262C'
+        font_color='#1B262C',
+        title_font_color='#1B262C',
+        xaxis_title_font_color='#1B262C',
+        yaxis_title_font_color='#1B262C',
+        legend_font_color='#1B262C'
     )
     
     st.plotly_chart(fig_activity, use_container_width=True)
 
 with col2:
     # Risk factors
-    st.markdown("### 📈 Faktor Risiko")
+    st.markdown('<h3 class="section-header"><i class="fas fa-exclamation-circle icon"></i>Faktor Risiko</h3>', unsafe_allow_html=True)
     
     risk_factors = [
-        ("Diet Tidak Sehat", favc_num * 50 + caec_num * 25),
-        ("Kurang Aktivitas", (3-faf) * 30 + tue * 20),
-        ("Kebiasaan Buruk", calc_num * 20 + smoke_num * 30),
-        ("Faktor Genetik", family_history_num * 100)
+        ("Diet Tidak Sehat", favc_num * 50 + caec_num * 25, "fas fa-hamburger"),
+        ("Kurang Aktivitas", (3-faf) * 30 + tue * 20, "fas fa-couch"),
+        ("Kebiasaan Buruk", calc_num * 20 + smoke_num * 30, "fas fa-smoking"),
+        ("Faktor Genetik", family_history_num * 100, "fas fa-dna")
     ]
     
-    for factor, score in risk_factors:
+    for factor, score, icon in risk_factors:
         level = "Rendah" if score < 30 else "Sedang" if score < 60 else "Tinggi"
         color = "#DCD6F7" if score < 30 else "#A6B1E1" if score < 60 else "#424874"
         text_color = "#1B262C" if score < 60 else "#F5F5F5"
         
         st.markdown(f"""
-        <div style="background: {color}; padding: 1rem; border-radius: 8px; margin: 0.5rem 0; color: {text_color};">
-            <strong>{factor}</strong><br>
-            Skor: {score:.0f}/100 - {level}
+        <div class="risk-item" style="background: {color}; color: {text_color};">
+            <i class="{icon}"></i>
+            <div>
+                <strong>{factor}</strong><br>
+                Skor: {score:.0f}/100 - {level}
+            </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -491,14 +579,14 @@ with col2:
 # TIPS KESEHATAN
 # ============================================================================
 
-st.markdown("## 💡 Tips Kesehatan")
+st.markdown('<h2 class="section-header"><i class="fas fa-heart icon"></i>Tips Kesehatan</h2>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
     <div class="info-box">
-        <h4>🥗 Tips Diet</h4>
+        <h4><i class="fas fa-apple-alt icon"></i>Tips Diet</h4>
         <ul>
             <li>Konsumsi 5-7 porsi sayuran per hari</li>
             <li>Minum air minimal 8 gelas sehari</li>
@@ -511,7 +599,7 @@ with col1:
 with col2:
     st.markdown("""
     <div class="info-box">
-        <h4>🏃 Tips Olahraga</h4>
+        <h4><i class="fas fa-dumbbell icon"></i>Tips Olahraga</h4>
         <ul>
             <li>Olahraga minimal 150 menit per minggu</li>
             <li>Kombinasi kardio dan kekuatan</li>
@@ -527,7 +615,7 @@ with col2:
 
 st.markdown("""
 <div class="warning-box">
-    <h4>⚠️ Disclaimer</h4>
+    <h4><i class="fas fa-info-circle icon"></i>Disclaimer</h4>
     <p>Aplikasi ini hanya untuk screening awal dan <strong>TIDAK menggantikan</strong> konsultasi dengan dokter. 
     Selalu konsultasikan kondisi kesehatan Anda dengan tenaga medis profesional.</p>
 </div>
@@ -535,8 +623,8 @@ st.markdown("""
 
 # Footer
 st.markdown("""
-<div style="text-align: center; color: #666; padding: 2rem; margin-top: 2rem;">
-    <p>🏥 <strong>Obesity Prediction System</strong> | Powered by Machine Learning</p>
+<div style="text-align: center; color: #424874; padding: 2rem; margin-top: 2rem;">
+    <p><i class="fas fa-heartbeat"></i> <strong>Obesity Prediction System</strong> | Powered by Machine Learning</p>
     <p>Developed for better health monitoring</p>
 </div>
 """, unsafe_allow_html=True)
