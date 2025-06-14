@@ -196,7 +196,7 @@ st.markdown("""
 @st.cache_resource
 def load_model():
     """Load model dari direktori yang ditentukan"""
-    model_path = "models/best_tuned_random_forest_model.pkl"
+    model_path = r"D:\Perkuliahan\SEMESTER_6\Bengkod\Capstone_Bengkod_DS01\models\best_tuned_random_forest_model.pkl"
     
     try:
         with open(model_path, 'rb') as file:
@@ -507,51 +507,24 @@ st.markdown('<h2 class="section-header"><i class="fas fa-chart-line icon"></i>St
 col1, col2 = st.columns(2)
 
 with col1:
-    # Activity level chart
-    activity_data = pd.DataFrame({
-        'Kategori': ['Olahraga', 'Sayuran', 'Air', 'Screen Time'],
-        'Nilai': [faf/3*100, fcvc/3*100, ch2o/3*100, (2-tue)/2*100],
-        'Target': [100, 100, 100, 100]
-    })
-    
-    fig_activity = go.Figure()
-    fig_activity.add_trace(go.Bar(
-        name='Anda',
-        x=activity_data['Kategori'],
-        y=activity_data['Nilai'],
-        marker_color='#2D3748',
-        text=[f'{val:.0f}%' for val in activity_data['Nilai']],
-        textposition='auto',
-        textfont=dict(color='#F5F5F5', size=12, family='Inter')
-    ))
-    fig_activity.add_trace(go.Bar(
-        name='Target',
-        x=activity_data['Kategori'],
-        y=activity_data['Target'],
-        marker_color='#6B73FF',
-        text=[f'{val:.0f}%' for val in activity_data['Target']],
-        textposition='auto',
-        textfont=dict(color='#FFFFFF', size=12, family='Inter')
-    ))
-    
-    fig_activity.update_layout(
-        title='Perbandingan dengan Target Sehat',
-        barmode='group',
-        height=400,
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font_color='#1B262C',
-        title_font_color='#1B262C',
-        xaxis_title_font_color='#1B262C',
-        yaxis_title_font_color='#1B262C',
-        legend_font_color='#1B262C'
-    )
-    
-    st.plotly_chart(fig_activity, use_container_width=True)
+    # Health metrics summary
+    st.markdown("""
+    <div class="card">
+        <h4 style="color: #1B262C;"><i class="fas fa-chart-bar icon"></i>Ringkasan Kesehatan</h4>
+        <p><strong>Status BMI:</strong> {}</p>
+        <p><strong>Aktivitas Fisik:</strong> {:.1f} hari/minggu</p>
+        <p><strong>Konsumsi Air:</strong> {:.1f} liter/hari</p>
+        <p><strong>Konsumsi Sayuran:</strong> {:.1f} porsi/hari</p>
+    </div>
+    """.format(bmi_category, faf, ch2o, fcvc), unsafe_allow_html=True)
 
 with col2:
     # Risk factors
-    st.markdown('<h3 class="section-header"><i class="fas fa-exclamation-circle icon"></i>Faktor Risiko</h3>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="card">
+        <h4 style="color: #1B262C;"><i class="fas fa-exclamation-circle icon"></i>Faktor Risiko</h4>
+    </div>
+    """, unsafe_allow_html=True)
     
     risk_factors = [
         ("Diet Tidak Sehat", favc_num * 50 + caec_num * 25, "fas fa-hamburger"),
