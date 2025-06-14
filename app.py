@@ -196,7 +196,7 @@ st.markdown("""
 @st.cache_resource
 def load_model():
     """Load model dari direktori yang ditentukan"""
-    model_path = r"D:\Perkuliahan\SEMESTER_6\Bengkod\Capstone_Bengkod_DS01\models\best_tuned_random_forest_model.pkl"
+    model_path = r"models\best_tuned_random_forest_model.pkl"
     
     try:
         with open(model_path, 'rb') as file:
