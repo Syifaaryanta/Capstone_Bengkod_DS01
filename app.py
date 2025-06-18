@@ -347,8 +347,8 @@ st.sidebar.markdown("### <i class='fas fa-clipboard-list'></i> Input Data Pasien
 st.sidebar.markdown("#### <i class='fas fa-user'></i> Informasi Demografis", unsafe_allow_html=True)
 age = st.sidebar.slider("Umur", 16, 61, 25)
 gender = st.sidebar.selectbox("Jenis Kelamin", ["Perempuan", "Laki-laki"])
-height = st.sidebar.number_input("Tinggi Badan (m)", 1.45, 1.98, 1.70, 0.01)
-weight = st.sidebar.number_input("Berat Badan (kg)", 39.0, 173.0, 70.0, 0.1)
+height = st.sidebar.number_input("Tinggi Badan (m)", 1.45, 2.00, 1.70, 0.01)
+weight = st.sidebar.number_input("Berat Badan (kg)", 39.0, 200.0, 70.0, 0.1)
 
 # Eating habits
 st.sidebar.markdown("#### <i class='fas fa-utensils'></i> Kebiasaan Makan", unsafe_allow_html=True)
@@ -368,7 +368,7 @@ scc = st.sidebar.selectbox("Monitor Kalori", ["Tidak", "Ya"])
 # Physical activity
 st.sidebar.markdown("#### <i class='fas fa-running'></i> Aktivitas Fisik", unsafe_allow_html=True)
 faf = st.sidebar.slider("Aktivitas Fisik (hari/minggu)", 0.0, 3.0, 1.0, 0.1)
-tue = st.sidebar.slider("Waktu Menggunakan Teknologi (jam/hari)", 0.0, 2.0, 1.0, 0.1)
+tue = st.sidebar.slider("Waktu Menggunakan Teknologi (jam/hari)", 0.0, 4.0, 1.0, 0.1)
 mtrans = st.sidebar.selectbox("Transportasi Utama", 
                              ["Mobil", "Sepeda", "Motor", "Transportasi Umum", "Jalan Kaki"])
 
